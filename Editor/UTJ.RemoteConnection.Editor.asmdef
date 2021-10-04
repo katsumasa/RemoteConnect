@@ -1,0 +1,18 @@
+{
+    "name": "UTJ.RemoteConnection.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0e80379a029da2e44b192fcaf767e3af"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
