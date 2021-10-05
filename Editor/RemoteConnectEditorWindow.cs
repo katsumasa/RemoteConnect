@@ -67,11 +67,6 @@ namespace UTJ
                 protected virtual void OnDisable()
                 {
                     EditorConnection.instance.Unregister(kMsgSendPlayerToEditor, OnMessageEvent);
-                    if (EditorConnection.instance != null)
-                    {
-                        EditorConnection.instance.DisconnectAll();
-                    }
-
                     m_connectionState.Dispose();
                 }
 
