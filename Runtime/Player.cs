@@ -10,6 +10,7 @@ namespace UTJ
             public class Player : MonoBehaviour
             {
                 public delegate void RemoteMessageCB(Message remoteMessageBase);
+                
                 /// <summary>
                 /// RemoteMessageÇéÛêMÇµÇΩéûÇÃCB
                 /// </summary>
@@ -35,23 +36,29 @@ namespace UTJ
                     }
                 }
 
-
                 protected bool isRegist
                 {
                     get { return mIsRegist; }
                 }
 
+                protected bool isEnableLog{
+                    get{return mIsEnableLog;}
+                    set{mIsEnableLog = value;}
+                }
+
                 bool mIsRegist = false;
                 bool mIsConnected = false;
-
+                bool mIsEnableLog = false;
 
                 /// <summary>
                 /// 
                 /// </summary>
                 protected virtual void OnEnable()
                 {
-                    Debug.Log("RemotePlayerBase.OnEnable()");
-                    Debug.Log("Register(" + kMsgSendEditorToPlayer + ")");
+                    if(isEnableLog){
+                        Debug.Log("RemotePlayerBase.OnEnable()");
+                        Debug.Log("Register(" + kMsgSendEditorToPlayer + ")");
+                    }
                     PlayerConnection.instance.RegisterConnection(ConnectionCB);
                     PlayerConnection.instance.RegisterDisconnection(OnDisconnecteCB);
                     PlayerConnection.instance.Register(kMsgSendEditorToPlayer, OnMessageEvent);
@@ -64,10 +71,15 @@ namespace UTJ
                 /// </summary>
                 protected virtual void OnDisable()
                 {
-                    Debug.Log("RemotePlayerBase.OnDisable()");
+                    if(isEnableLog){
+                        Debug.Log("RemotePlayerBase.OnDisable()");
+                    }
+
                     if (mIsRegist)
                     {
-                        Debug.Log("Unregister(" + kMsgSendEditorToPlayer + ")");
+                        if(isEnableLog){
+                            Debug.Log("Unregister(" + kMsgSendEditorToPlayer + ")");
+                        }
                         PlayerConnection.instance.Unregister(kMsgSendEditorToPlayer, OnMessageEvent);
                         PlayerConnection.instance.UnregisterConnection(ConnectionCB);
                         PlayerConnection.instance.UnregisterDisconnection(OnDisconnecteCB);
@@ -90,25 +102,28 @@ namespace UTJ
                 {
                     var messageBase = new Message();
                     messageBase = Message.Desirialize<Message>(args.data);
-#if DEBUG_REMOTE_CONNECTION
-            Debug.Log("RemotePlayer messageId:" + messageBase.messageId);
-#endif
+                    if(isEnableLog){
+                        Debug.Log("RemotePlayer messageId:" + messageBase.messageId);
+                    }
                     if (remoteMessageCB != null)
                     {
                         remoteMessageCB(messageBase);
                     }
                 }
 
-
                 private void ConnectionCB(int playerid)
                 {
                     mIsConnected = true;
-                    Debug.LogError("ConnectionCB:" + playerid);
+                    if(isEnableLog){
+                        Debug.Log("ConnectionCB:" + playerid);
+                    }
                 }
 
                 private void OnDisconnecteCB(int playerid)
                 {
-                    Debug.LogError("DisconnectionCB:" + playerid);
+                    if(isEnableLog){
+                        Debug.Log("DisconnectionCB:" + playerid);
+                    }
                     mIsConnected = false;
                 }
             }        
