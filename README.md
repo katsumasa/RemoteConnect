@@ -1,5 +1,7 @@
 # RemoteConnection
 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/katsumasa/RemoteConnect)
+
 Connecting the Unity Editor and Unity Player.
 
 ## 概要
