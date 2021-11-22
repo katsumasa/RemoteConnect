@@ -90,7 +90,7 @@ public class SamplePlayer : UTJ.RemoteConnect.Player
 | remoteMessageCB | Delegate executed when a message from the Editor is received |
 | kMsgSendEditorToPlayer | Unique identifier for Player from Editor |
 | kMsgSendPlayerToEditor | Unique identifier for Editor from Player |
-| isConnected | Editor/Player間の接続が行われているか(read only) |
+| isConnected | Connection between Editor/Player (read only) |
 
 #### Function
 
