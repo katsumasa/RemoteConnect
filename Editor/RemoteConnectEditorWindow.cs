@@ -27,10 +27,16 @@ namespace UTJ
             public class RemoteConnectEditorWindow : EditorWindow
             {
                 public delegate void RemoteMessageCB(UTJ.RemoteConnect.Message remoteMessageBase);
+                public delegate void EventMessageCB(byte[] bytes);
+                
+                
                 /// <summary>
                 /// RemoteMessageÇéÛêMÇµÇΩéûÇÃCB
                 /// </summary>
                 protected RemoteMessageCB remoteMessageCB;
+
+                protected EventMessageCB eventMessageCB;
+
 
                 /// <summary>
                 ///  From Editor to PlayerópéØï éq
@@ -84,7 +90,7 @@ namespace UTJ
 #if UNITY_2020_1_OR_NEWER
                         ConnectionGUILayout.ConnectionTargetSelectionDropdown(m_connectionState, EditorStyles.toolbarDropDown);
 #else
-                ConnectionGUILayout.AttachToPlayerDropdown(m_connectionState, EditorStyles.toolbarDropDown);
+                        ConnectionGUILayout.AttachToPlayerDropdown(m_connectionState, EditorStyles.toolbarDropDown);
 #endif
                     }
                 }
@@ -98,15 +104,17 @@ namespace UTJ
 
                 private void OnMessageEvent(UnityEngine.Networking.PlayerConnection.MessageEventArgs args)
                 {
-                    var messageBase = new RemoteConnect.Message();
-                    messageBase = RemoteConnect.Message.Desirialize<RemoteConnect.Message>(args.data);
-#if DEBUG_REMOTE_CONNECTION
-            Debug.Log("messageId:" + messageBase.messageId);
-#endif
+                    if (eventMessageCB != null)
+                    {
+                        eventMessageCB(args.data);
+                    }
+
                     if (remoteMessageCB != null)
                     {
+                        var messageBase = new RemoteConnect.Message();
+                        messageBase = RemoteConnect.Message.Desirialize<RemoteConnect.Message>(args.data);
                         remoteMessageCB(messageBase);
-                    }
+                    }                    
                 }
             }
         }

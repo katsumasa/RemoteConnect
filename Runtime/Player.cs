@@ -10,11 +10,16 @@ namespace UTJ
             public class Player : MonoBehaviour
             {
                 public delegate void RemoteMessageCB(Message remoteMessageBase);
-                
+
+                public delegate void MessageEventCB(byte[] bytes);
+
+
                 /// <summary>
                 /// RemoteMessage‚ğóM‚µ‚½‚ÌCB
                 /// </summary>
                 protected RemoteMessageCB remoteMessageCB;
+
+                protected MessageEventCB messageEventCB;
 
                 /// <summary>
                 ///  From Editor to Player—p¯•Êq
@@ -98,18 +103,22 @@ namespace UTJ
                 }
 
 
-                private void OnMessageEvent(MessageEventArgs args)
+            private void OnMessageEvent(MessageEventArgs args)
+            {
+
+                if (messageEventCB != null)
+                {
+                    messageEventCB(args.data);
+                }
+                                    
+                if (remoteMessageCB != null)
                 {
                     var messageBase = new Message();
                     messageBase = Message.Desirialize<Message>(args.data);
-                    if(isEnableLog){
-                        Debug.Log("RemotePlayer messageId:" + messageBase.messageId);
-                    }
-                    if (remoteMessageCB != null)
-                    {
-                        remoteMessageCB(messageBase);
-                    }
+                    remoteMessageCB(messageBase);
                 }
+                
+            }
 
                 private void ConnectionCB(int playerid)
                 {
