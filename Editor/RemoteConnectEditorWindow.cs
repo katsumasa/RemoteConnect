@@ -64,9 +64,8 @@ namespace UTJ
 #if UNITY_2020_1_OR_NEWER
                     m_connectionState = ConnectionUtility.GetConnectionState(this);
 #else
-            m_connectionState = ConnectionUtility.GetAttachToPlayerState(this);
+                    m_connectionState = ConnectionUtility.GetAttachToPlayerState(this);
 #endif
-
                 }
 
 
@@ -82,6 +81,7 @@ namespace UTJ
                 /// </summary>
                 protected void ConnectionTargetSelectionDropdown()
                 {
+                    EditorGUILayout.BeginHorizontal();
                     var contents = new GUIContent("Connect To");
                     var v2 = EditorStyles.label.CalcSize(contents);
                     UnityEditor.EditorGUILayout.LabelField(contents, GUILayout.Width(v2.x));
@@ -93,6 +93,7 @@ namespace UTJ
                         ConnectionGUILayout.AttachToPlayerDropdown(m_connectionState, EditorStyles.toolbarDropDown);
 #endif
                     }
+                    EditorGUILayout.EndHorizontal();
                 }
 
 
