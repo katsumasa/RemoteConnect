@@ -99,7 +99,10 @@ namespace UTJ
 
                 protected void SendRemoteMessage(byte[] bytes)
                 {
-                    EditorConnection.instance.Send(kMsgSendEditorToPlayer, bytes);
+                    if (kMsgSendEditorToPlayer != System.Guid.Empty)
+                    {
+                        EditorConnection.instance.Send(kMsgSendEditorToPlayer, bytes);
+                    }
                 }
 
 
